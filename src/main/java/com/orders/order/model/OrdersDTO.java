@@ -3,10 +3,15 @@ package com.orders.order.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class OrdersDTO {
 	
 	private long orderid;
+	@Size(min=4, message="Name should contain atleast 4 characters")
 	private String customerName;
+	@NotNull(message = "order date cannot be null")
 	private Date orderDate;
 	private String shippingAddress;
 	private List<OrderItem> orderItems;

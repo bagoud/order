@@ -2,6 +2,8 @@ package com.orders.order.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.orders.order.exception.OrderNotFoundException;
 import com.orders.order.model.OrderItem;
 import com.orders.order.model.Orders;
 import com.orders.order.model.OrdersDTO;
@@ -36,6 +39,10 @@ public class OrdersController {
 		OrdersDTO orders = new OrdersDTO();
 		Orders order = orderRepo.findById(Long.valueOf(orderId));
 		
+		if(order == null) {
+			throw new OrderNotFoundException("Order ID : " + orderId);
+		}
+		
 		//Fetch orderItems
 		List<OrderItem> orderItems = proxy.getItems(orderId);
 		
@@ -50,7 +57,7 @@ public class OrdersController {
 	}
 	
 	@PostMapping("/orders")
-	public ResponseEntity<Void> createItem(@RequestBody OrdersDTO ordersDTO) {
+	public ResponseEntity<Void> createItem(@Valid @RequestBody OrdersDTO ordersDTO) {
 		
 		Orders orders = new Orders();
 		orders.setCustomerName(ordersDTO.getCustomerName());

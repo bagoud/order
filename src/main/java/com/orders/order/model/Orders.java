@@ -8,7 +8,6 @@ import javax.persistence.Id;
 @Entity
 public class Orders
  {
-
 	@Id
 	private long orderid;
 	private String customername;
