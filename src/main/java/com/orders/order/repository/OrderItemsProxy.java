@@ -1,0 +1,24 @@
+package com.orders.order.repository;
+
+import java.util.List;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.orders.order.model.OrderItem;
+
+
+@FeignClient(name="order-item-service", url="localhost:8080")
+public interface OrderItemsProxy {
+	
+	@GetMapping("/orders/item/{orderId}")
+	public List<OrderItem> getItems(@PathVariable("orderId") String orderId);
+	
+	@PostMapping("order-item-service/orders/item")
+	public ResponseEntity<Void> createItem(@RequestBody List<OrderItem> items);
+}
