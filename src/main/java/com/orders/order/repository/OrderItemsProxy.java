@@ -19,6 +19,6 @@ public interface OrderItemsProxy {
 	@GetMapping("/orders/item/{orderId}")
 	public List<OrderItem> getItems(@PathVariable("orderId") String orderId);
 	
-	@PostMapping("order-item-service/orders/item")
+	@PostMapping("/orders/item")
 	public ResponseEntity<Void> createItem(@RequestBody List<OrderItem> items);
 }
